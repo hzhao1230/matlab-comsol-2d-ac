@@ -38,7 +38,7 @@ addpath('/home/hzg972/comsol42/mli','/home/hzg972/comsol42/mli/startup');
 structure = './crop_ferroPGMA_2wt%_2D_structure_output'; 
 
 % neat polymer properties
-PolymerPronySeries   = './RoomTempEpoxyYHNew.mat'; 
+PolymerPronySeries   = './RoomTempEpoxy.mat'; 
 
 
 DomLength               = 1000;  				% [pixel]. Side length of square simulation window
