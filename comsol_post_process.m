@@ -13,7 +13,6 @@ model.result('pg1').name('Electric Field Norm (ec)');
 model.result('pg1').run;
 
 str_EpsilonBulkImag = sprintf('real(ec.Jy/%.3g[V])*%.3g*1e-3[mm]/ec.freq/2/3.14/8.85e-12[F/m]',AppliedVoltage,dimensionY);
-% Create Line Average along ground surface
 model.result.numerical.create('av1', 'AvLine');
 model.result.numerical('av1').selection.set(ind2.Gnd);
 model.result.table.create('tbl1', 'Table');
@@ -28,11 +27,10 @@ model.result('pg2').feature('tblp1').set('table', 'tbl1');
 model.result('pg2').run;
 model.result.export.create('plot1', 'pg2', 'tblp1', 'Plot');
 model.result.export('plot1').set('header', 'off');
-txtfilenameImag = [savefile,'_CompPermImag.csv'];% './COMSOL_result_composite_epsilon_r.txt';
+txtfilenameImag = [savefile,'_CompPermImag.csv'];
 disp('Write imaginary composite permittivity to file:'); disp(txtfilenameImag);        
 model.result.export('plot1').set('filename', txtfilenameImag);
 model.result.export('plot1').run;
-%         model.result.table('tbl1').save(txtfilenameImag);
 
 
 str_EpsilonBulkReal = sprintf('imag(ec.Jy/%.3g[V])*%.3g*1e-3[mm]/ec.freq/2/3.14/8.85e-12[F/m]',AppliedVoltage,dimensionY);
@@ -54,9 +52,7 @@ model.result.export.create('plot2', 'pg3', 'tblp2', 'Plot');
 model.result.export('plot2').set('header', 'off');
 model.result.export('plot2').set('filename', txtfilenameReal);
 disp('Write real composite permittivity to file:'); disp(txtfilenameReal);        
-model.result.export('plot2').run;        
-%         model.result.table('tbl2').save(txtfilenameReal);
-        
+model.result.export('plot2').run;           
 
 
 end

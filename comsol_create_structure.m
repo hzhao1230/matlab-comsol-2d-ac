@@ -1,10 +1,11 @@
 % Create statistically re-generated filler/interface geometry
-% In this structure, IF2 means the actual NP-matrix interphase. IF1 means
-% the thin layer of functionalization. 
+% Nomenclature: 
+% IP1: extrinsic, short moledule layer
+% IP2: intrinsic, interfacial polymer, the 'interphase'
 
 function [model] = comsol_create_structure(model)
 global InterfaceThickness1 InterfaceThickness2 dimensionX dimensionY ... 
-    EllipseMatrix NewClusterNo...
+    EllipseMatrix NewClusterNo ...
 
 disp('Generating cluster microstructure ...');
 FeatureName={}; % List of filler circles
@@ -92,6 +93,6 @@ model.geom('geom1').feature('DiffMatrix').set('keep', 'on');
 model.geom('geom1').feature('DiffMatrix').set('createselection', 'on');
 model.geom('geom1').runAll;
 
-mphsave(model, 'GEOM_ONLY')
+mphsave(model, 'GEOM_ONLY') % Save temp comsol model to file for debug
 
 disp('Finished building unions and differences on fillers, interphase, and rectangular simulation block.');

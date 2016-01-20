@@ -20,5 +20,6 @@ else % Automatic physics-controlled mesh
     model.mesh('mesh1').autoMeshSize(MeshLevel); 
 end
 model.mesh('mesh1').run;
+
 disp('Finished meshing');
 end

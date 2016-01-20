@@ -1,8 +1,7 @@
 % Assign entities with material properties
 
 function model = comsol_create_material(model)
-global      MatrixConductivity FillerConductivity ... % electric properties
-    FillerRelPerm ElectrodeConductivity ElectrodeRelPerm InterfaceConductivity InterfaceRelPerm InterfaceImagPerm...
+global      MatrixConductivity FillerConductivity FillerRelPerm ElectrodeConductivity ElectrodeRelPerm InterfaceConductivity InterfaceRelPerm InterfaceImagPerm 
 	
 % Define filler material
 model.material.create('mat1');
@@ -25,16 +24,14 @@ model.material('mat4').propertyGroup('def').set('relpermittivity', strInterfaceP
 model.material('mat4').propertyGroup('def').set('electricconductivity', InterfaceConductivity);     
    
 %%% Uncomment below to remove the effect of this thin layer IF1
-%             model.material('mat4').propertyGroup('def').set('relpermittivity', {'epint-j*eppint'});                                 
-%             model.material('mat4').propertyGroup('def').set('electricconductivity', MatrixConductivity);
-
+%   model.material('mat4').propertyGroup('def').set('relpermittivity', {'epint-j*eppint'});                                 
+%   model.material('mat4').propertyGroup('def').set('electricconductivity', MatrixConductivity);
 
 % Define intrinsic interface materials - thicker
 model.material.create('mat5'); 
 model.material('mat5').selection.named('geom1_DiffInterface2_dom');                       
 model.material('mat5').propertyGroup('def').set('relpermittivity', {'epint-j*eppint'});
 model.material('mat5').propertyGroup('def').set('electricconductivity', MatrixConductivity);      
-     
-	 
+
 disp('Created all materials');
 end

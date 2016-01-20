@@ -9,6 +9,7 @@ set(0,'defaultlinelinewidth',2);
 set(0,'defaultaxesfontsize',20);
 % Set figure text fontsize to 20
 set(0,'defaulttextfontsize',20);
+
 res_ep = [savefile,'_CompPermReal.csv'];
 res_epp = [savefile,'_CompPermImag.csv'];
 FEAPermReal = csvread(res_ep);
@@ -17,8 +18,7 @@ freq = FEAPermImag(:,1);
 epp1 = FEAPermImag(:,2);
 ep1 = FEAPermReal(:,2);
 
-EXPTPerm = csvread(exptdata);
-% Experimental data
+EXPTPerm = csvread(exptdata); % Experimental data
 freqEXPT = EXPTPerm(:,1);
 epEXPT = EXPTPerm(:,2);
 eppEXPT = EXPTPerm(:,3);

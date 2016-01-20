@@ -43,14 +43,14 @@ model       = comsol_create_physics(model, indBoundary);
 model       = comsol_create_mesh(model,  indBoundary);
 
 % Step Eight: Assign shift factors for interphase 
-SF  	= [TauShift1, DeltaEpsilonShift1, TauShift2 ,DeltaEpsilonShift2,ConstEpsilonShift  ];
+SF  	= [TauShift1, DeltaEpsilonShift1, TauShift2, DeltaEpsilonShift2, ConstEpsilonShift];
 model   = comsol_create_shifting_factors(model, SF);
 
 %% Section III:  Obtain solution from COMSOL
 % Step One: Create Physics-based Study
 model       = comsol_create_study(model);
 
-mphsave(model, 'PRECOMPUTED')
+mphsave(model, 'PRECOMPUTED') % Save temp comsol model file for debug
 
 if GetSolution == 1
     % Step Two: Obtain solution
