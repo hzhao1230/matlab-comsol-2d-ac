@@ -30,7 +30,7 @@ MATLAB
 4. IP1/IP2: user defined interphase thicknesses 
 5. Volume fraction: imposed volume fractin of nanophase 
 
-Check before running: 
+#Check before running: 
 1. User defined input: values and data that are specific to current sample or model
 2. Model configuration parameters: default values for model config. 
 3. load_constant.m: physics conditions specific to current sample or model
