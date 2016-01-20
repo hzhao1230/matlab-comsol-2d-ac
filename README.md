@@ -11,11 +11,8 @@ MATLAB
 
 #Run model:
 1. Open comsol server on command line
-
 2. Check assigned port number and enter it in comsol_conf.m
-
 3. Check path of comsol binary files and enter it in comsol_conf.m
-
 4. Open matlab and run comsol_conf.m
 
 #Files needed before running：
