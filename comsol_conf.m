@@ -16,24 +16,27 @@ global vf_expt ...
     tau0 ...
     PortNum
 	
-id 			= 1; % current run ID
+id 						= 1; % current run ID
 GetSolution             = 1; % '1' for getting solution. '0' for outputing a MPH model with just simulation setup w/o running simulation
-PortNum 				= 2036 ; 
+PortNum 				= 2036; 
 
 vf_expt                 = 1/100;   % labelled volume fraction
-TauShift1 		        = 1;       % beta relaxation, s_beta, For tau <= 1, Shift multiplier along x direction. 1 is no shift
-DeltaEpsilonShift1 	    = 2.2;  	% beta relaxation, M_beta, For tau <= 1, Shift multiplier along y direction. 1 is no shift
-TauShift2 		        = 0.1;  	% Alpha relaxation, s_alpha, for tau > 1, Shift multiplier along x direction. 1 is no shift
-DeltaEpsilonShift2		= 2;  	% Alpha relaxation, M_alpha, For tau > 1, Shift multiplier along y direction. 1 is no shift
-ConstEpsilonShift		= 1.2; 	% Constant vertical shift for real permittivity
+TauShift1 		        = 0.75;       % beta relaxation, s_beta, For tau <= 1, Shift multiplier along x direction. 1 is no shift
+DeltaEpsilonShift1 	    = 1.8;  	% beta relaxation, M_beta, For tau <= 1, Shift multiplier along y direction. 1 is no shift
+TauShift2 		        = 0.006;  	% Alpha relaxation, s_alpha, for tau > 1, Shift multiplier along x direction. 1 is no shift
+DeltaEpsilonShift2		= 1.4;  	% Alpha relaxation, M_alpha, For tau > 1, Shift multiplier along y direction. 1 is no shift
+ConstEpsilonShift		= 0.3; 	% Constant vertical shift for real permittivity
 tau0                    = 0.01; 	% tau*freq_crit = 1. E.g, for freq_crit = 10 Hz, tau = 0.1 s. 
 
-dimension_to_pixel		= 400/240; % [nm]/[# of pixel]. Ratio of physical dimension to pixel 
+% Ratio of physical dimension to pixel 
+dimension_to_pixel		= 200/432; % [nm]/[# of pixel]. 
 
 % Add API source files to path
 addpath('/home/hzg972/comsol42/mli','/home/hzg972/comsol42/mli/startup');
 % microstructure		
 structure = './crop_ferroPGMA_2wt%_2D_structure_output'; 
+% experimental dielectric relaxation data 
+exptdata = '../expt_epoxy_DS/ferrocene_PGMA_2wt-TK.csv'; 
 
 % neat polymer properties
 PolymerPronySeries   = './RoomTempEpoxy.mat'; 
@@ -72,7 +75,6 @@ disp('Job done. Output result to .mph file');
 % Export API-created model to file
 mphsave(model, savefile);
 
-exptdata = '../expt_epoxy_DS/BS_PGMA_2wt%-YH.csv'; 
 % Plot computed results and compare against expt data
 plot_results(savefile, exptdata)
 toc

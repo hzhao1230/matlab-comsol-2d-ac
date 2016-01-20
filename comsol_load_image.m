@@ -6,13 +6,13 @@ global  dimensionX dimensionY DomLength ...
     vf_expt ReScale ... 
 
 RemainSide = 1-2*CutSide;   
-dimensionY = dimensionX; 
 
 % Obtain dimension-to-pixel ratio and simulation box side length.
 disp(['Ratio of physical length to pixel: ', num2str(dimension_to_pixel),'nm-per-pixel'])
 
 % Load img_para matrix and assign data into EllipseMatrix for creating structure
 load(structure);
+dimensionY = dimensionX; 
 [NewClusterNo, Nrow] = size(img_para);
 EllipseMatrix=zeros(NewClusterNo,5);
 EllipseMatrix(:,1)=img_para(1:NewClusterNo,1); % rotation angle. Unit in degree
