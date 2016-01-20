@@ -16,6 +16,10 @@ global vf_expt ...
     tau0 ...
     PortNum
 	
+	
+	
+% --------------user defined input ------------------------
+
 id 						= 1; % current run ID
 GetSolution             = 1; % '1' for getting solution. '0' for outputing a MPH model with just simulation setup w/o running simulation
 PortNum 				= 2036; 
@@ -41,8 +45,9 @@ exptdata = '../expt_epoxy_DS/ferrocene_PGMA_2wt-TK.csv';
 % neat polymer properties
 PolymerPronySeries   = './RoomTempEpoxy.mat'; 
 
+% -------------- end user defined input ------------------------
 
-DomLength               = 1000;  				% [pixel]. Side length of square simulation window
+% -------------- model config parameters ------------------------
 CutSide                 = 0.05;	                              % fractin of side to cut to remove edge effect
 IP1                     = 10;                                % extrinsic interphase thickness [nm]
 IP2                     = 50;                                % intrinsic interphase thickness[nm]
@@ -62,16 +67,18 @@ if EpsDistribution == 0;
 	epmodel.epp 	= 1e-3;
 	% fixed interphase permittivity shift 
 	epintShift 		= 0;
-	epmodel.epint 	= epmodel.ep + epintShift;
+	epmodel.epint 	= epmodel.ep + epintShift;5.
 	eppintShift 	= 0;
 	epmodel.eppint 	= epmodel.epp + eppintShift;
 end
+% -------------- end model config parameters ------------------------
 
 % Run Model
 savefile = ['./2D_comsolbuild_',date,'_IP',num2str(IP1),'+',num2str(IP2),'_run_',num2str(id)]; % Output COMSOL project name
 tic
 model = comsol_build(PolymerPronySeries, structure, savefile);
 disp('Job done. Output result to .mph file');
+
 % Export API-created model to file
 mphsave(model, savefile);
 
