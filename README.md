@@ -26,6 +26,8 @@ MATLAB
 3. Dimension_to_pixel ratio (nm/pixel). Conversion between physical and image sizes
 4. IP1/IP2: user defined interphase thicknesses 
 5. Volume fraction: imposed volume fractin of nanophase 
+6. (optional) To disable extrinsic interphase (short molecules layer), change commented section in comsol_create_material.m
+7. (optional, by commenting or uncommenting plot_results) experimental data of the sample 
 
 #Check before running: 
 1. User defined input: values and data that are specific to current sample or model
@@ -34,4 +36,35 @@ MATLAB
 4. Make sure polymer matrix (RoomTempEpoxy), structure (crop_...) are in the same folder. 
  
 
+# General procedure for 2D FEA permittivity study with COMSOL API in MATLAB
 
+I. Run Dynamfit code (provided separately) to obtain Prony Series coefficients to use for dielectric 'master curve' for matrix. Run plot_matrix_epoxy to make sure result from prony series coefficients match with experimental data
+
+For epoxy, use coefficients in 'RoomTempEpoxy.mat', which matches with 'neat_epoxy2-YH.csv'
+
+II. Use realistic RVE microstructure from TEM, reversely fit interphase shift factors based on comparison with experimental DS data
+
+Grayscale images are cropped from original TEM image so that side length is about 1 micron, which is about the RVE size.  Pixel length of scale bar is recorded to provide conversion ratio between pixel and physical length.
+
+Then binary image of RVE structure is obtained with dynamic binarization algorithm ('Niblack') to reduce effect of uneven brightness in the background. 
+
+In Niblack algorithm, particles with diameter smaller than 15 nm is removed as they are treated as artifacts on sample surface. Thus, scaling ratio needs to be defined in 'noise_filter' to reflect actual cutting threshold in pixel unit. The algorithm is run with 'user_niblack' by specifying image filename (with path pre-configured within this main script), side length in pixels, conversion ratio mode (see noise_filter), and initial window size. Increase window size to include more particles in binary image. 
+
+
+III. Run FEA model with COMSOL API 
+
+Open two console terminals
+a. comsol server (confirm port 2036, otherwise make change in comsol_build)
+b. matlab -nosplash -nodesktop
+
+5 result files will output from the run: 1 MPH file of the COMSOL model, 2 CSV files with complex DS, without header, 2 images of comparison of data between simulated result and experimental data 
+
+IV. Compare results to determine tuning shift factors: plot and compare FE with experimental results
+
+Observe peak and relaxation position, then adjust shift factors
+
+V. Change shifting factors and re-run FE model
+Run comsol_conf_tuneSF after configuring parameters.
+Define new shifting factors for next run. This requires trial and error
+
+Repeat step IV until FE result matches with experimental result. Record shift factors used in last tune. 
