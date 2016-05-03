@@ -1,9 +1,10 @@
 % comsol_conf.m
 % Configuration files for COMSOL model using API
-
+% Run on matlab console: 
+% addpath('/usr/local/comsol52/multiphysics/mli','/usr/local/comsol52/multiphysics/mli/startup');
+% mphstart(2036)
 clear all; close all; clc; warning('off', 'all')
-global vf_expt ...          
-    DomLength ...           
+global vf_expt ...                    
     dimension_to_pixel ...  
     CutSide ...             
     TauShift1 DeltaEpsilonShift1 TauShift2 DeltaEpsilonShift2 ConstEpsilonShift ...
@@ -14,31 +15,27 @@ global vf_expt ...
     GetSolution  ... 		
     ManualMesh MeshLevel ...
     tau0 ...
-    PortNum
-	
-	
 	
 % --------------user defined input ------------------------
-
+% microstructure file. output from bin2structure	
+structure=['./crop_ferroPGMA_2wt%_2D_structure_output'];
+    
 id 						= 1; % current run ID
 GetSolution             = 1; % '1' for getting solution. '0' for outputing a MPH model with just simulation setup w/o running simulation
-PortNum 				= 2036; 
 
 vf_expt                 = 1/100;   % labelled volume fraction
-TauShift1 		        = 0.75;       % beta relaxation, s_beta, For tau <= 1, Shift multiplier along x direction. 1 is no shift
-DeltaEpsilonShift1 	    = 1.8;  	% beta relaxation, M_beta, For tau <= 1, Shift multiplier along y direction. 1 is no shift
-TauShift2 		        = 0.006;  	% Alpha relaxation, s_alpha, for tau > 1, Shift multiplier along x direction. 1 is no shift
-DeltaEpsilonShift2		= 1.4;  	% Alpha relaxation, M_alpha, For tau > 1, Shift multiplier along y direction. 1 is no shift
+TauShift1 		        = 0.9;       % beta relaxation, s_beta, For tau <= 1, Shift multiplier along x direction. 1 is no shift
+DeltaEpsilonShift1 	    = 1.55;  	% beta relaxation, M_beta, For tau <= 1, Shift multiplier along y direction. 1 is no shift
+TauShift2 		        =0.2; 	% Alpha relaxation, s_alpha, for tau > 1, Shift multiplier along x direction. 1 is no shift
+DeltaEpsilonShift2		= 0.7;  	% Alpha relaxation, M_alpha, For tau > 1, Shift multiplier along y direction. 1 is no shift
 ConstEpsilonShift		= 0.3; 	% Constant vertical shift for real permittivity
-tau0                    = 0.01; 	% tau*freq_crit = 1. E.g, for freq_crit = 10 Hz, tau = 0.1 s. 
+tau0                    = 0.1; 	% tau*freq_crit = 1. E.g, for freq_crit = 10 Hz, tau = 0.1 s. 
 
 % Ratio of physical dimension to pixel 
-dimension_to_pixel		= 200/432; % [nm]/[# of pixel]. 
+dimension_to_pixel		= 1/1; % [nm]/[# of pixel]. 
 
 % Add API source files to path
-addpath('/home/hzg972/comsol42/mli','/home/hzg972/comsol42/mli/startup');
-% microstructure		
-structure = './crop_ferroPGMA_2wt%_2D_structure_output'; 
+	
 % experimental dielectric relaxation data 
 exptdata = '../expt_epoxy_DS/ferrocene_PGMA_2wt-TK.csv'; 
 
@@ -48,9 +45,9 @@ PolymerPronySeries   = './RoomTempEpoxy.mat';
 % -------------- end user defined input ------------------------
 
 % -------------- model config parameters ------------------------
-CutSide                 = 0.05;	                              % fractin of side to cut to remove edge effect
+CutSide                 = 0;	                              % fractin of side to cut to remove edge effect
 IP1                     = 10;                                % extrinsic interphase thickness [nm]
-IP2                     = 50;                                % intrinsic interphase thickness[nm]
+IP2                     = 40;                                % intrinsic interphase thickness[nm]
 InterfaceThickness1     = IP1*1e-3;                          % [mm], physical length, Interficial region thickness with constant properties
 InterfaceThickness2     = IP2*1e-3;                          % [mm], physical length, Interficial region thickness with freq dependent properties
 InterfaceThickness      = InterfaceThickness2 + InterfaceThickness1;
@@ -67,7 +64,7 @@ if EpsDistribution == 0;
 	epmodel.epp 	= 1e-3;
 	% fixed interphase permittivity shift 
 	epintShift 		= 0;
-	epmodel.epint 	= epmodel.ep + epintShift;5.
+	epmodel.epint 	= epmodel.ep + epintShift;
 	eppintShift 	= 0;
 	epmodel.eppint 	= epmodel.epp + eppintShift;
 end
@@ -83,5 +80,5 @@ disp('Job done. Output result to .mph file');
 mphsave(model, savefile);
 
 % Plot computed results and compare against expt data
-plot_results(savefile, exptdata)
+%plot_results(savefile, exptdata)
 toc

@@ -12,14 +12,15 @@ disp(['Ratio of physical length to pixel: ', num2str(dimension_to_pixel),'nm-per
 
 % Load img_para matrix and assign data into EllipseMatrix for creating structure
 load(structure);
+dimensionX=1;
 dimensionY = dimensionX; 
-[NewClusterNo, Nrow] = size(img_para);
+[NewClusterNo, ~] = size(img_para);
 EllipseMatrix=zeros(NewClusterNo,5);
 EllipseMatrix(:,1)=img_para(1:NewClusterNo,1); % rotation angle. Unit in degree
 EllipseMatrix(:,2)=img_para(1:NewClusterNo,2); % long axis
 EllipseMatrix(:,3)=img_para(1:NewClusterNo,3); % short axis
-EllipseMatrix(:,4)=img_para(1:NewClusterNo,4) + CutSide*dimensionX; % X pos
-EllipseMatrix(:,5)=img_para(1:NewClusterNo,5) + CutSide*dimensionY; % Y pos
+EllipseMatrix(:,4)=img_para(1:NewClusterNo,4)*RemainSide + CutSide*dimensionX; % X pos
+EllipseMatrix(:,5)=img_para(1:NewClusterNo,5)*RemainSide + CutSide*dimensionX; % Y pos
 
 
 disp(['Number of clusters in FEA geometry: ',num2str(NewClusterNo)])

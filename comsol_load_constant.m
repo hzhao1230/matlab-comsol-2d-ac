@@ -2,8 +2,8 @@
 function [] = comsol_load_constant()
 
 global AppliedVoltage InitialVoltage MatrixConductivity InterfaceConductivity CurrentSource FillerConductivity ... % electric properties
-    FillerRelPerm InterfaceRelPerm InterfaceImagPerm ElectrodeConductivity ElectrodeRelPerm ...
-    FreqRange TimeRange ACMode extra_E_infi
+    FillerRelPerm InterfaceRelPerm InterfaceImagPerm  ...
+    FreqRange extra_E_infi
 
 % Model parameters
 extra_E_infi                        = -0.55;                % polymer matrix adjustment: vertical shift from prony series output and expt data comparison

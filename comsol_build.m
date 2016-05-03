@@ -2,8 +2,8 @@
 
 function [model] = comsol_build(PScoeff, structure,savefile)
 % Initialization
-global TauShift1 DeltaEpsilonShift1 TauShift2 DeltaEpsilonShift2 ConstEpsilonShift ACMode EpsDistribution ...
-    ControlMode GetSolution PortNum
+global TauShift1 DeltaEpsilonShift1 TauShift2 DeltaEpsilonShift2 ConstEpsilonShift EpsDistribution ...
+     GetSolution 
 
 %% Section I: Load Data
 comsol_load_constant();
@@ -17,7 +17,7 @@ end
 comsol_load_image(structure);
 
 % Connect with COMSOL server with port number, default 2036.
-mphstart(PortNum);
+% mphstart(PortNum);
 import com.comsol.model.*
 import com.comsol.model.util.*
 model = ModelUtil.create('Model');
@@ -29,6 +29,7 @@ model       = comsol_create_model(model);
 
 % Step Two: Create statistically re-generated microstructure
 model       = comsol_create_structure(model);
+% mphsave(model, 'Structure') 
 
 % Step Four: Create boundary selection indices
 indBoundary = comsol_create_boundary_selection(model);
@@ -50,7 +51,7 @@ model   = comsol_create_shifting_factors(model, SF);
 % Step One: Create Physics-based Study
 model       = comsol_create_study(model);
 
-mphsave(model, 'PRECOMPUTED') % Save temp comsol model file for debug
+% mphsave(model, 'PRECOMPUTED') % Save temp comsol model file for debug
 
 if GetSolution == 1
     % Step Two: Obtain solution

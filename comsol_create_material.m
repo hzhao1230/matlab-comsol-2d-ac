@@ -1,11 +1,11 @@
 % Assign entities with material properties
 
 function model = comsol_create_material(model)
-global      MatrixConductivity FillerConductivity FillerRelPerm ElectrodeConductivity ElectrodeRelPerm InterfaceConductivity InterfaceRelPerm InterfaceImagPerm 
+global      MatrixConductivity FillerConductivity FillerRelPerm InterfaceConductivity InterfaceRelPerm InterfaceImagPerm 
 	
 % Define filler material
 model.material.create('mat1');
-model.material('mat1').selection.named('geom1_UnionFiller_dom');
+model.material('mat1').selection.named('geom1_Unionsmall_dom');
 model.material('mat1').propertyGroup('def').set('electricconductivity', FillerConductivity);
 model.material('mat1').propertyGroup('def').set('relpermittivity',FillerRelPerm);
 
@@ -17,7 +17,7 @@ model.material('mat2').propertyGroup('def').set('electricconductivity', MatrixCo
 
 % Define extrinsic interface materials - thin
 model.material.create('mat4');  
-model.material('mat4').selection.named('geom1_DiffInterface1_dom');
+model.material('mat4').selection.named('geom1_UnionLargeEllipse1_dom');
 
 strInterfacePerm = [num2str(InterfaceRelPerm),'-j*', num2str(InterfaceImagPerm)];
 model.material('mat4').propertyGroup('def').set('relpermittivity', strInterfacePerm);   
@@ -29,7 +29,7 @@ model.material('mat4').propertyGroup('def').set('electricconductivity', Interfac
 
 % Define intrinsic interface materials - thicker
 model.material.create('mat5'); 
-model.material('mat5').selection.named('geom1_DiffInterface2_dom');                       
+model.material('mat5').selection.named('geom1_UnionLargeEllipse2_dom');                       
 model.material('mat5').propertyGroup('def').set('relpermittivity', {'epint-j*eppint'});
 model.material('mat5').propertyGroup('def').set('electricconductivity', MatrixConductivity);      
 
